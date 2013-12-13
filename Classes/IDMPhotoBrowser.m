@@ -277,32 +277,7 @@
     if ([(UIPanGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded) {
         if(scrollView.center.y > viewHalfHeight+40 || scrollView.center.y < viewHalfHeight-40) // Automatic Dismiss View
         {
-            if (_senderViewForAnimation && _currentPageIndex == _initalPageIndex) {
-                [self performCloseAnimationWithScrollView:scrollView];
-                return;
-            }
-            
-            CGFloat finalX = firstX, finalY;
-            
-            CGFloat windowsHeigt = [_applicationWindow frame].size.height;
-            
-            if(scrollView.center.y > viewHalfHeight+30) // swipe down
-                finalY = windowsHeigt*2;
-            else // swipe up
-                finalY = -viewHalfHeight;
-            
-            CGFloat animationDuration = 0.35;
-            
-            [UIView beginAnimations:nil context:NULL];
-            [UIView setAnimationDuration:animationDuration];
-            [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-            [UIView setAnimationDelegate:self];
-            [scrollView setCenter:CGPointMake(finalX, finalY)];
-            self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
-            //self.view.backgroundColor = [UIColor colorWithPatternImage:[self getImageFromView:backgroundImageView]];
-            [UIView commitAnimations];
-            
-            [self performSelector:@selector(doneButtonPressed:) withObject:self afterDelay:animationDuration];
+            [self performSelector:@selector(doneButtonPressed:) withObject:self afterDelay:0];
         }
         else // Continue Showing View
         {
@@ -1267,15 +1242,9 @@
 #pragma mark - Buttons
 
 - (void)doneButtonPressed:(id)sender {
-    if (_senderViewForAnimation && _currentPageIndex == _initalPageIndex) {
-        IDMZoomingScrollView *scrollView = [self pageDisplayedAtIndex:_currentPageIndex];
-        [self performCloseAnimationWithScrollView:scrollView];
-    }
-    else {
-        _senderViewForAnimation.hidden = NO;
-        [self prepareForClosePhotoBrowser];
-        [self dismissPhotoBrowserAnimated:YES];
-    }
+    _senderViewForAnimation.hidden = NO;
+    [self prepareForClosePhotoBrowser];
+    [self dismissPhotoBrowserAnimated:YES];
 }
 
 - (void)actionButtonPressed:(id)sender {
