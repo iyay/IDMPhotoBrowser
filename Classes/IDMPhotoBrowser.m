@@ -526,8 +526,7 @@
         _doneButton.layer.borderWidth = 1.0f;
     }
     else {
-        [_doneButton setBackgroundImage:_doneButtonImage forState:UIControlStateNormal];
-        _doneButton.contentMode = UIViewContentModeScaleAspectFit;
+        [_doneButton setImage:_doneButtonImage forState:UIControlStateNormal];
     }
     
     UIImage *leftButtonImage = (_leftArrowImage == nil) ?
@@ -1080,7 +1079,7 @@
     
     // if ([self isLandscape:orientation]) screenWidth = screenBound.size.height;
     
-    return CGRectMake(screenWidth - 75, 30, 64, 32);
+    return CGRectMake(screenWidth - 100, 20, 100, 84);
 }
 
 - (CGRect)frameForCaptionView:(IDMCaptionView *)captionView atIndex:(NSUInteger)index {
