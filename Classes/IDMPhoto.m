@@ -41,15 +41,15 @@ caption = _caption;
 #pragma mark Class Methods
 
 + (IDMPhoto *)photoWithImage:(UIImage *)image {
-	return [[IDMPhoto alloc] initWithImage:image];
+    return [[IDMPhoto alloc] initWithImage:image];
 }
 
 + (IDMPhoto *)photoWithFilePath:(NSString *)path {
-	return [[IDMPhoto alloc] initWithFilePath:path];
+    return [[IDMPhoto alloc] initWithFilePath:path];
 }
 
 + (IDMPhoto *)photoWithURL:(NSURL *)url {
-	return [[IDMPhoto alloc] initWithURL:url];
+    return [[IDMPhoto alloc] initWithURL:url];
 }
 
 + (NSArray *)photosWithImages:(NSArray *)imagesArray {
@@ -98,24 +98,24 @@ caption = _caption;
 #pragma mark NSObject
 
 - (id)initWithImage:(UIImage *)image {
-	if ((self = [super init])) {
-		self.underlyingImage = image;
-	}
-	return self;
+    if ((self = [super init])) {
+        self.underlyingImage = image;
+    }
+    return self;
 }
 
 - (id)initWithFilePath:(NSString *)path {
-	if ((self = [super init])) {
-		_photoPath = [path copy];
-	}
-	return self;
+    if ((self = [super init])) {
+        _photoPath = [path copy];
+    }
+    return self;
 }
 
 - (id)initWithURL:(NSURL *)url {
-	if ((self = [super init])) {
-		_photoURL = [url copy];
-	}
-	return self;
+    if ((self = [super init])) {
+        _photoURL = [url copy];
+    }
+    return self;
 }
 
 #pragma mark IDMPhoto Protocol Methods
@@ -145,7 +145,10 @@ caption = _caption;
                 UIImage *image = responseObject;
                 self.underlyingImage = image;
                 [self performSelectorOnMainThread:@selector(imageLoadingComplete) withObject:nil waitUntilDone:NO];
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) { }];
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Image not found" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alert show];
+            }];
             
             [op setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
                 CGFloat progress = ((CGFloat)totalBytesRead)/((CGFloat)totalBytesExpectedToRead);
@@ -167,9 +170,9 @@ caption = _caption;
 - (void)unloadUnderlyingImage {
     _loadingInProgress = NO;
 
-	if (self.underlyingImage && (_photoPath || _photoURL)) {
-		self.underlyingImage = nil;
-	}
+    if (self.underlyingImage && (_photoPath || _photoURL)) {
+        self.underlyingImage = nil;
+    }
 }
 
 #pragma mark - Async Loading
@@ -255,12 +258,12 @@ caption = _caption;
     
     // If failed, return undecompressed image
     if (!context) return image;
-	
+    
     CGContextDrawImage(context, imageRect, imageRef);
     CGImageRef decompressedImageRef = CGBitmapContextCreateImage(context);
-	
+    
     CGContextRelease(context);
-	
+    
     UIImage *decompressedImage = [UIImage imageWithCGImage:decompressedImageRef scale:image.scale orientation:image.imageOrientation];
     CGImageRelease(decompressedImageRef);
     return decompressedImage;

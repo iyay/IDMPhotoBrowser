@@ -910,6 +910,8 @@
             [self loadAdjacentPhotosIfNecessary:photo];
         } else {
             // Failed to load
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Image not found" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
             [page displayImageFailure];
         }
     }
